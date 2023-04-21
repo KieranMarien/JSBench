@@ -6,7 +6,7 @@ import numpy as np
 from scripts.js import bun, deno, node
 
 
-def Deno_Read():
+def DenoSQLiteRead():
     result = []
     for i in range(10):
         start_time = time.time()
@@ -18,7 +18,7 @@ def Deno_Read():
     return result
 
 
-def Deno_Write():
+def DenoSQLiteWrite():
     file_path = 'deno.sqlite'
     result = []
     for i in range(10):
@@ -34,7 +34,7 @@ def Deno_Write():
 
 
 
-def Node_Read():
+def NodeSQLiteRead():
     result = []
     for i in range(10):
         start_time = time.time()
@@ -45,7 +45,7 @@ def Node_Read():
     print('node sqlite read result')
     return result
 
-def Node_Write():
+def NodeSQLiteWrite():
     file_path = 'node.sqlite'
 
     result = []
@@ -61,7 +61,7 @@ def Node_Write():
     return result
 
 
-def Bun_Read():
+def BunSQLiteRead():
     result = []
     for i in range(10):
         start_time = time.time()
@@ -71,7 +71,7 @@ def Bun_Read():
     print("--- %s seconds ---" % np.mean(result))
     print('bun sqlite read result')
 
-def Bun_Write():
+def BunSQLiteWrite():
     file_path = 'bun.sqlite'
 
     result = []

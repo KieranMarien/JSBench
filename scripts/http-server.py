@@ -3,7 +3,7 @@ import time
 import numpy as np
 from scripts.js import bun, deno, node
 
-def NodeHttp():
+def Nodehttpserver():
     # node.call(['-v'])
     node_process = node.Popen(['benchmark/node/http-server/http-server.js'])
     time.sleep(3)
@@ -18,7 +18,7 @@ def NodeHttp():
     print('node result  ^')
     return result
 
-def DenoHttp():
+def Denohttpserver():
     # deno.call(['--version'])
     deno_process = deno.Popen(['run', '--allow-net', 'benchmark/deno/http-server.ts'])
     time.sleep(3)
@@ -34,7 +34,7 @@ def DenoHttp():
     print('deno result  ^')
     return result
 
-def BunHttp():
+def Bunhttpserver():
     bun.run(['-v'])
     bun_process = bun.Popen(['./benchmark/bun/http-server.js'])
     time.sleep(2)

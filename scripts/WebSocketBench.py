@@ -66,7 +66,7 @@ def webSocketTester(SERVER):
     start_messages()
     return True
 
-def NodeWS():
+def NodeWebsocket():
     result = []
     for i in range(10):
         print(i)
@@ -83,7 +83,7 @@ def NodeWS():
     print('node Websocket result')
     return np.mean(result)
 
-def DenoWS():
+def DenoWebsocket():
     print("DENOOOOOOOOOOO ________________________")
     result = []
     for i in range(10):
@@ -104,7 +104,7 @@ def DenoWS():
 
 
 
-def BunWS():
+def BunWebsocket():
     result = []
     for i in range(10):
         bun_process = bun.Popen(['benchmark/bun/websocket/WS-server.js'])

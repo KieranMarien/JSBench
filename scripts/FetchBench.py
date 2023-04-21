@@ -4,7 +4,7 @@ import numpy as np
 
 from scripts.js import node, deno, bun
 
-def NodeJSON():
+def NodeFetch():
     result = []
     for i in range(10):
         start_time = time.time()
@@ -14,7 +14,7 @@ def NodeJSON():
     print("--- %s seconds ---" % np.mean(result))
     print('node fetch json result')
     return result
-def DenoJSON():
+def DenoFetch():
     result = []
     for i in range(10):
         start_time = time.time()
@@ -24,7 +24,7 @@ def DenoJSON():
     print('deno fetch json result')
     return result
 
-def BunJSON():
+def BunFetch():
     result = []
     for i in range(10):
         start_time = time.time()
