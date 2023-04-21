@@ -1,0 +1,6 @@
+{
+  "imports": {
+    "https://deno.land/x/sqlite/mod.ts": "./deno.land/x/sqlite@v3.7.1/mod.ts",
+    "https://deno.land/": "./deno.land/"
+  }
+}
