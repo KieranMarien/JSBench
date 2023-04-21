@@ -2,9 +2,10 @@ import sys
 
 import numpy as np
 import inquirer
-from scripts import WebSocketBench
-from scripts import SQLiteBench
-from scripts import FetchBench
+from scripts.WebSocketBench import *
+from scripts.SQLiteBench import *
+from scripts.FetchBench import *
+from scripts.httpserver import *
 
 if sys.platform.startswith("linux") or sys.platform == "darwin":
     Runtimes = [
