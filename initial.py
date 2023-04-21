@@ -30,3 +30,4 @@ if __name__ == '__main__':
             if name == "node_modules":
                 shutil.rmtree(os.path.join(root, name))
     install_packages()
+    subprocess.run(['pip install -r requirements.txt'])
