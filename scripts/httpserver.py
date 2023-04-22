@@ -2,13 +2,13 @@ import requests
 import time
 import numpy as np
 from scripts.js import bun, deno, node
+import settings
 
 def Nodehttpserver():
-    # node.call(['-v'])
     node_process = node.Popen(['benchmark/node/http-server/http-server.js'])
     time.sleep(3)
     result = []
-    for i in range(10):
+    for i in range(settings.NumberOfTests):
         start_time = time.time()
         res = requests.get('http://127.0.0.1:3000')
         result.append(time.time() - start_time)
@@ -23,7 +23,7 @@ def Denohttpserver():
     deno_process = deno.Popen(['run', '--allow-net', 'benchmark/deno/http-server.ts'])
     time.sleep(3)
     result = []
-    for i in range(10):
+    for i in range(settings.NumberOfTests):
         start_time = time.time()
         res = requests.get('http://127.0.0.1:4000')
         result.append(time.time() - start_time)
@@ -39,7 +39,7 @@ def Bunhttpserver():
     bun_process = bun.Popen(['./benchmark/bun/http-server.js'])
     time.sleep(2)
     result = []
-    for i in range(10):
+    for i in range(settings.NumberOfTests):
         start_time = time.time()
         res = requests.get('http://localhost:5000')
         result.append(time.time() - start_time)

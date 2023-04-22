@@ -3,12 +3,13 @@ import time
 
 import numpy as np
 
+from scripts import settings
 from scripts.js import bun, deno, node
 
 
 def DenoSQLiteRead():
     result = []
-    for i in range(10):
+    for i in range(settings.NumberOfTests):
         start_time = time.time()
         deno_process = deno.run(['run', '--import-map=benchmark/deno/sqlite/vendor/import_map.json', '--allow-read', 'benchmark/deno/sqlite/sqlite-read.ts'])
         result.append(time.time() - start_time)
@@ -21,7 +22,7 @@ def DenoSQLiteRead():
 def DenoSQLiteWrite():
     file_path = 'deno.sqlite'
     result = []
-    for i in range(10):
+    for i in range(settings.NumberOfTests):
         start_time = time.time()
         deno_process = deno.run(['run', '--import-map=benchmark/deno/sqlite/vendor/import_map.json', '--allow-read', '--allow-write', 'benchmark/deno/sqlite/sqlite-write.ts'])
         result.append(time.time() - start_time)
@@ -36,7 +37,7 @@ def DenoSQLiteWrite():
 
 def NodeSQLiteRead():
     result = []
-    for i in range(10):
+    for i in range(settings.NumberOfTests):
         start_time = time.time()
         node_process = node.run(['benchmark/node/sqlite/sqlite-read.js'])
         result.append(time.time() - start_time)
@@ -49,7 +50,7 @@ def NodeSQLiteWrite():
     file_path = 'node.sqlite'
 
     result = []
-    for i in range(10):
+    for i in range(settings.NumberOfTests):
         start_time = time.time()
         node_process = node.run(['benchmark/node/sqlite/sqlite-write.js'])
         result.append(time.time() - start_time)
@@ -63,19 +64,20 @@ def NodeSQLiteWrite():
 
 def BunSQLiteRead():
     result = []
-    for i in range(10):
+    for i in range(settings.NumberOfTests):
         start_time = time.time()
         bun_process = bun.run(['benchmark/bun/sqlite/sqlite-read.js'])
         result.append(time.time() - start_time)
 
     print("--- %s seconds ---" % np.mean(result))
     print('bun sqlite read result')
+    return result
 
 def BunSQLiteWrite():
     file_path = 'bun.sqlite'
 
     result = []
-    for i in range(10):
+    for i in range(settings.NumberOfTests):
         if os.path.isfile(file_path):
             os.remove(file_path)
         start_time = time.time()

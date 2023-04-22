@@ -1,3 +1,4 @@
+from scripts import settings
 import sys
 
 import numpy as np
@@ -6,6 +7,8 @@ from scripts.WebSocketBench import *
 from scripts.SQLiteBench import *
 from scripts.FetchBench import *
 from scripts.httpserver import *
+
+settings.init()
 
 if sys.platform.startswith("linux") or sys.platform == "darwin":
     Runtimes = [
@@ -23,8 +26,10 @@ Tests = [
                       message='What parts would you like to benchmark?',
                       choices=['Fetch', 'SQLiteRead', 'SQLiteWrite', 'Websocket', 'httpserver'], ), ]
 
-if __name__ == '__main__':
 
+
+if __name__ == '__main__':
+    print('warning: BUN WEBSOCKET DOES NOT WORK')
     runtimesAnswers = inquirer.prompt(Runtimes)['runtimes']
     print(runtimesAnswers)
     benchAnswers = inquirer.prompt(Tests)['tests']
