@@ -2,7 +2,7 @@ import requests
 import time
 import numpy as np
 from scripts.js import bun, deno, node
-import settings
+from scripts import settings
 
 def Nodehttpserver():
     node_process = node.Popen(['benchmark/node/http-server/http-server.js'])

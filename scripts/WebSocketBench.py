@@ -3,7 +3,7 @@ import time
 import numpy as np
 import websocket
 from scripts.js import bun, deno, node
-import settings
+from scripts import settings
 import os
 import asyncio
 import json

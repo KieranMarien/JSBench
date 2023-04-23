@@ -27,9 +27,10 @@ def install_packages():
 if __name__ == '__main__':
     for root, dirs, files in os.walk(".", topdown=False):
         for name in dirs:
-            if name == "node_modules":
+            if name == "node_modules" or name == "vendor":
                 shutil.rmtree(os.path.join(root, name))
 
     subprocess.run(['deno', 'vendor', 'sqlite-read.ts', 'sqlite-write.ts'], cwd='benchmark/deno/sqlite')
     install_packages()
     subprocess.run(['pip', 'install','-r', 'requirements.txt'])
+    subprocess.run(['npm', 'install', '-g', 'json-server'])

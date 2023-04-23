@@ -1,14 +1,14 @@
-from scripts import settings
+import subprocess
 import sys
-
+import json
 import numpy as np
 import inquirer
+import datetime
+import time
 from scripts.WebSocketBench import *
 from scripts.SQLiteBench import *
 from scripts.FetchBench import *
 from scripts.httpserver import *
-
-settings.init()
 
 if sys.platform.startswith("linux") or sys.platform == "darwin":
     Runtimes = [
@@ -26,10 +26,12 @@ Tests = [
                       message='What parts would you like to benchmark?',
                       choices=['Fetch', 'SQLiteRead', 'SQLiteWrite', 'Websocket', 'httpserver'], ), ]
 
-
-
 if __name__ == '__main__':
     print('warning: BUN WEBSOCKET DOES NOT WORK')
+    jsonserver = subprocess.Popen(['json-server', 'db.json'])
+    start_time = time.time()
+
+    print('bun sqlite write result')
     runtimesAnswers = inquirer.prompt(Runtimes)['runtimes']
     print(runtimesAnswers)
     benchAnswers = inquirer.prompt(Tests)['tests']
@@ -52,8 +54,15 @@ if __name__ == '__main__':
                 allResults.update({function: res})
     print(allResults)
 
+    now = datetime.datetime.now()
+    filename = now.strftime("%Y-%m-%d-%H-%M-%S.json")
 
+    with open(filename, 'w') as fp:
+        json.dump(allResults, fp, sort_keys=True, indent=4)
 
+    jsonserver.kill()
+    end = time.time() - start_time
+    print("--- %s seconds ---" % end)
 
     '''
     df = FetchBench.DenoJSON()

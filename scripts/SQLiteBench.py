@@ -66,7 +66,7 @@ def BunSQLiteRead():
     result = []
     for i in range(settings.NumberOfTests):
         start_time = time.time()
-        bun_process = bun.run(['benchmark/bun/sqlite/sqlite-read.js'])
+        bun_process = bun.run(['benchmark/bun/sqlite/sqlite-read.ts'])
         result.append(time.time() - start_time)
 
     print("--- %s seconds ---" % np.mean(result))
@@ -81,7 +81,7 @@ def BunSQLiteWrite():
         if os.path.isfile(file_path):
             os.remove(file_path)
         start_time = time.time()
-        bun_process = bun.run(['benchmark/bun/sqlite/sqlite-read.js'])
+        bun_process = bun.run(['benchmark/bun/sqlite/sqlite-read.ts'])
         result.append(time.time() - start_time)
 
     print("--- %s seconds ---" % np.mean(result))

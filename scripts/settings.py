@@ -1,2 +1,2 @@
 #Needs input
-NumberOfTests = 10
+NumberOfTests = 10000
