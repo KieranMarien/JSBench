@@ -22,7 +22,7 @@ def install_packages():
     for package_json_file in package_json_files:
         directory = os.path.dirname(package_json_file)
         print(f"Installing packages in {directory}")
-        subprocess.run(["npm", "i"], cwd=directory)
+        subprocess.run(["npm", "i"], cwd=directory, shell=True)
 
 if __name__ == '__main__':
     for root, dirs, files in os.walk(".", topdown=False):
@@ -30,7 +30,8 @@ if __name__ == '__main__':
             if name == "node_modules" or name == "vendor":
                 shutil.rmtree(os.path.join(root, name))
 
+    subprocess.run(['npm', 'install', '-g', 'json-server'], shell=True)
     subprocess.run(['deno', 'vendor', 'sqlite-read.ts', 'sqlite-write.ts'], cwd='benchmark/deno/sqlite')
+    subprocess.run(['pip', 'install', '-r', 'requirements.txt'])
     install_packages()
-    subprocess.run(['pip', 'install','-r', 'requirements.txt'])
-    subprocess.run(['npm', 'install', '-g', 'json-server'])
+

@@ -28,13 +28,17 @@ Tests = [
 
 if __name__ == '__main__':
     print('warning: BUN WEBSOCKET DOES NOT WORK')
-    jsonserver = subprocess.Popen(['json-server', 'db.json'])
+    jsonserver = subprocess.Popen(['json-server', 'db.json'], shell=True)
+    time.sleep(10)
+
     start_time = time.time()
 
     print('bun sqlite write result')
-    runtimesAnswers = inquirer.prompt(Runtimes)['runtimes']
+    #runtimesAnswers = inquirer.prompt(Runtimes)['runtimes']
+    runtimesAnswers = ['Node', 'Deno']
     print(runtimesAnswers)
-    benchAnswers = inquirer.prompt(Tests)['tests']
+    #benchAnswers = inquirer.prompt(Tests)['tests']
+    benchAnswers = ['Fetch', 'SQLiteRead', 'SQLiteWrite', 'httpserver']
     print(benchAnswers)
 
     if len(runtimesAnswers) == 0:
