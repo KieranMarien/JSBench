@@ -8,11 +8,6 @@ const query1 =
       FROM media_types
       JOIN tracks ON media_types.MediaTypeId = tracks.MediaTypeId
       GROUP BY media_types.Name;`).all()
-console.log(query1)
-
-
-
-
 const query2 =
   db.prepare(`SELECT albums.Title, artists.Name, SUM(invoice_items.Quantity) AS total_sales
       FROM albums
@@ -21,6 +16,6 @@ const query2 =
       JOIN invoice_items ON invoice_items.TrackId = tracks.TrackId
       GROUP BY albums.AlbumId
       ORDER BY total_sales DESC`).all()
-console.log(query2)
+
 
 db.close()

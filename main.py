@@ -1,32 +1,102 @@
+import os
 import subprocess
 import sys
 import json
 import numpy as np
 import inquirer
-import datetime
+from datetime import datetime
 import time
 from scripts.WebSocketBench import *
 from scripts.SQLiteBench import *
 from scripts.FetchBench import *
 from scripts.httpserver import *
 
+
+
 if sys.platform.startswith("linux") or sys.platform == "darwin":
     Runtimes = [
         inquirer.Checkbox('runtimes',
                           message='What runtimes would you like to test?',
-                          choices=['Node', 'Deno', 'Bun'], ), ]
+                          choices=[('Node', 0), ('Deno', 1), ('Bun', 2)], ), ]
 else:
     Runtimes = [
         inquirer.Checkbox('runtimes',
                           message='What runtimes would you like to test?',
-                          choices=['Node', 'Deno'], ), ]
+                          choices=[('Node', 0), ('Deno', 1)], ), ]
 
 Tests = [
     inquirer.Checkbox('tests',
                       message='What parts would you like to benchmark?',
-                      choices=['Fetch', 'SQLiteRead', 'SQLiteWrite', 'Websocket', 'httpserver'], ), ]
+                      choices=[('Fetch', 0), ('SQLiteRead', 1), ('SQLiteWrite',2), ('Websocket', 3), ('httpserver', 4)], ), ]
+
+commandsWrite = ["node benchmark/node/sqlite/sqlite-write.js ",
+                 "deno run --allow-read --allow-write benchmark/deno/sqlite/sqlite-write.ts ",
+                 "bun benchmark/bun/sqlite/sqlite-write.ts "]
+commandsRead = ["node benchmark/node/sqlite/sqlite-read.js ",
+                "deno run --allow-read benchmark/deno/sqlite/sqlite-read.ts ",
+                "bun benchmark/bun/sqlite/sqlite-read.ts "]
+
+commandsFetch =["node benchmark/node/fetching/fetch.js ",
+                'deno run --allow-net benchmark/deno/fetching/fetch.ts ',
+                "bun benchmark/bun/fetching/fetch.js "]
+
+commandsHttpServer= [
+
+]
+def CommandBuilder(runtimes, arr):
+    res = []
+    for runtime in runtimes:
+        res.append(arr[runtime])
+    return res
+
 
 if __name__ == '__main__':
+    date = datetime.now().strftime('%d-%m-%Y_%H-%M-%S')
+    os.makedirs('./results/' + date)
+    path = './results/' + date
+
+    # runtimesAnswers = inquirer.prompt(Runtimes)['runtimes']
+    runtimesAnswers = [0, 1]
+    print(runtimesAnswers)
+    noderes = NodeWebsocket()
+    print(noderes)
+    denores = DenoWebsocket()
+    print(denores)
+    bunres = BunWebsocket()
+    print(bunres)
+    # benchAnswers = inquirer.prompt(Tests)['tests']
+    benchAnswers = ['Fetch', 'SQLiteRead', 'SQLiteWrite', 'httpserver']
+    benchAnswers = []
+    print(benchAnswers)
+
+    if len(runtimesAnswers) == 0:
+        print('MIN 1 value for runtimes')
+        runtimesAnswers = inquirer.prompt(Runtimes)
+
+    if len(benchAnswers) == 0:
+        print('MIN 1 value for benchmarks')
+        runtimesAnswers = inquirer.prompt(Runtimes)
+
+    if 0 in benchAnswers:
+        fetch = CommandBuilder(runtimesAnswers, commandsFetch)
+        HyperfineFetchTest(fetch, path + '/fetch.json')
+    if 1 in benchAnswers:
+        read = CommandBuilder(runtimesAnswers, commandsRead)
+        HyperfineReadTest(read, path + "/sqliteread.json")
+    if 2 in benchAnswers:
+        write = CommandBuilder(runtimesAnswers, commandsWrite)
+        HyperfineWriteTest(write, path + "/sqlitewrite.json")
+    if 4 in benchAnswers:
+        os.makedirs(path + '/httpserver')
+        http = ohaTests(runtimesAnswers, path + '/httpserver/')
+
+
+
+
+
+
+
+""" if __name__ == '__main__':
     print('warning: BUN WEBSOCKET DOES NOT WORK')
     jsonserver = subprocess.Popen(['json-server', 'db.json'], shell=True)
     time.sleep(10)
@@ -83,6 +153,7 @@ if __name__ == '__main__':
     print('node fetch json result')
     '''
 
+"""
 """
     dr = SQLiteBench.Deno_Read()
     dw = SQLiteBench.Deno_Write()

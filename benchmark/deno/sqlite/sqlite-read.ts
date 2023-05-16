@@ -14,9 +14,6 @@ const query2 = db.query(`SELECT albums.Title, artists.Name, SUM(invoice_items.Qu
     JOIN invoice_items ON invoice_items.TrackId = tracks.TrackId
     GROUP BY albums.AlbumId
     ORDER BY total_sales DESC`);
-
-console.log(query1)
-console.log(query2)
 db.close()
 
 

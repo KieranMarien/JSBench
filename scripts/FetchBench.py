@@ -1,3 +1,5 @@
+import os
+import subprocess
 import time
 
 import numpy as np
@@ -34,3 +36,16 @@ def BunFetch():
     print("--- %s seconds ---" % np.mean(result))
     print('bun fetch json result')
     return result
+
+
+def HyperfineFetchTest(command, path):
+    print(os.path.abspath(path))
+    print(command)
+    jsonserver = subprocess.Popen(['json-server', 'db.json', '-q'], shell=True)
+    time.sleep(5)
+    str = ''
+    for test in command:
+        str += test
+    print(path)
+    result = subprocess.call(['hyperfine', '--warmup', '3', '--runs', '10', str, '--show-output', '--export-json', os.path.abspath(path)])
+    jsonserver.kill()

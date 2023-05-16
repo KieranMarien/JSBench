@@ -65,7 +65,7 @@ def NodeWebsocket():
     result = []
     for i in range(settings.NumberOfTests):
         print(i)
-        node_process = node.Popen(['benchmark/node/websocket/WS-server.js'])
+        node_process = node.Popen(['benchmark/node/websocket/WS-server.ts'])
         time.sleep(3)
         start_time = time.time()
         node_client_process = node.run(['benchmark/client/WS-client.js'])
@@ -92,10 +92,11 @@ def DenoWebsocket():
 def BunWebsocket():
     result = []
     for i in range(settings.NumberOfTests):
-        bun_process = bun.Popen(['benchmark/bun/websocket/WS-server.js'])
+        bun_process = bun.Popen(['benchmark/bun/websocket/WS-server.ts'])
         time.sleep(3)
         start_time = time.time()
         webSocketTester(SERVER_BUN)
         result.append(time.time() - start_time)
         bun_process.kill()
     return result
+

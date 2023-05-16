@@ -1,4 +1,5 @@
 import os
+import subprocess
 import time
 
 import numpy as np
@@ -11,7 +12,8 @@ def DenoSQLiteRead():
     result = []
     for i in range(settings.NumberOfTests):
         start_time = time.time()
-        deno_process = deno.run(['run', '--import-map=benchmark/deno/sqlite/vendor/import_map.json', '--allow-read', 'benchmark/deno/sqlite/sqlite-read.ts'])
+        deno_process = deno.run(['run', '--import-map=benchmark/deno/sqlite/vendor/import_map.json', '--allow-read',
+                                 'benchmark/deno/sqlite/sqlite-read.ts'])
         result.append(time.time() - start_time)
 
     print("--- %s seconds ---" % np.mean(result))
@@ -24,7 +26,9 @@ def DenoSQLiteWrite():
     result = []
     for i in range(settings.NumberOfTests):
         start_time = time.time()
-        deno_process = deno.run(['run', '--import-map=benchmark/deno/sqlite/vendor/import_map.json', '--allow-read', '--allow-write', 'benchmark/deno/sqlite/sqlite-write.ts'])
+        deno_process = deno.run(
+            ['run', '--import-map=benchmark/deno/sqlite/vendor/import_map.json', '--allow-read', '--allow-write',
+             'benchmark/deno/sqlite/sqlite-write.ts'])
         result.append(time.time() - start_time)
         if os.path.isfile(file_path):
             os.remove(file_path)
@@ -32,7 +36,6 @@ def DenoSQLiteWrite():
     print("--- %s seconds ---" % np.mean(result))
     print('deno sqlite write result')
     return result
-
 
 
 def NodeSQLiteRead():
@@ -45,6 +48,7 @@ def NodeSQLiteRead():
     print("--- %s seconds ---" % np.mean(result))
     print('node sqlite read result')
     return result
+
 
 def NodeSQLiteWrite():
     file_path = 'node.sqlite'
@@ -73,6 +77,7 @@ def BunSQLiteRead():
     print('bun sqlite read result')
     return result
 
+
 def BunSQLiteWrite():
     file_path = 'bun.sqlite'
 
@@ -88,3 +93,29 @@ def BunSQLiteWrite():
     print('bun sqlite write result')
     return result
 
+
+def HyperfineReadTest(command, path):
+    string = "node benchmark/node/sqlite/sqlite-read.js"
+    # , '\'deno run --allow-read benchmark/deno/sqlite/sqlite-read.ts\''
+    print(path)
+    print(os.path.abspath(path))
+    print(command)
+    str = ''
+    for test in command:
+        str += test
+    result = subprocess.call(['hyperfine', '--warmup', '3', '--runs', '10', str, '--show-output', '--export-json',
+                              os.path.abspath(path)])
+
+    print(result)
+
+
+def HyperfineWriteTest(command, path):
+    str = ''
+    for test in command:
+        str += test
+    result = subprocess.call(['hyperfine', '--warmup', '3', '--runs', '10', str, '--show-output', '--export-json',
+                              os.path.abspath(path)])
+    if os.path.isfile('bun.sqlite'): os.remove('bun.sqlite')
+    if os.path.isfile('deno.sqlite'): os.remove('deno.sqlite')
+    if os.path.isfile('node.sqlite'): os.remove('node.sqlite')
+    print(result)
