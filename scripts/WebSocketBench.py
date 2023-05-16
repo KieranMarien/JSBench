@@ -65,7 +65,7 @@ def NodeWebsocket():
     result = []
     for i in range(settings.NumberOfTests):
         print(i)
-        node_process = node.Popen(['benchmark/node/websocket/WS-server.ts'])
+        node_process = node.Popen(['benchmark/node/websocket/WS-server.js'])
         time.sleep(3)
         start_time = time.time()
         node_client_process = node.run(['benchmark/client/WS-client.js'])
@@ -100,5 +100,5 @@ def BunWebsocket():
         bun_process.kill()
         while(bun_process.poll()):
             time.sleep(0.1)
-    return result
+    return np.mean(result)
 

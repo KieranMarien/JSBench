@@ -6,6 +6,8 @@ import numpy as np
 import inquirer
 from datetime import datetime
 import time
+
+from scripts.MongoBench import *
 from scripts.WebSocketBench import *
 from scripts.SQLiteBench import *
 from scripts.FetchBench import *
@@ -27,7 +29,7 @@ else:
 Tests = [
     inquirer.Checkbox('tests',
                       message='What parts would you like to benchmark?',
-                      choices=[('Fetch', 0), ('SQLiteRead', 1), ('SQLiteWrite',2), ('Websocket', 3), ('httpserver', 4)], ), ]
+                      choices=[('Fetch', 0), ('SQLiteRead', 1), ('SQLiteWrite',2), ('Websocket', 3), ('httpserver', 4),('mongoWrite', 5), ('mongoRead', 6)], ), ]
 
 commandsWrite = ["node benchmark/node/sqlite/sqlite-write.js ",
                  "deno run --allow-read --allow-write benchmark/deno/sqlite/sqlite-write.ts ",
@@ -40,9 +42,13 @@ commandsFetch =["node benchmark/node/fetching/fetch.js ",
                 'deno run --allow-net benchmark/deno/fetching/fetch.ts ',
                 "bun benchmark/bun/fetching/fetch.js "]
 
-commandsHttpServer= [
+commandsMongoRead= ['node benchmark/node/mongodb/mongo-read.js ',
+                    'deno run --allow-net --allow-read benchmark/deno/mongodb/mongo-read.ts ',
+                    'bun benchmark/node/mongodb/mongo-read.js ']
 
-]
+commandsMongoWrite= ['node benchmark/node/mongodb/mongo-write.js ',
+                    'deno run --allow-net --allow-read benchmark/deno/mongodb/mongo-write.ts ',
+                    'bun benchmark/node/mongodb/mongo-write.js ']
 def CommandBuilder(runtimes, arr):
     res = []
     for runtime in runtimes:
@@ -58,15 +64,10 @@ if __name__ == '__main__':
     # runtimesAnswers = inquirer.prompt(Runtimes)['runtimes']
     runtimesAnswers = [0, 1]
     print(runtimesAnswers)
-    noderes = NodeWebsocket()
-    print(noderes)
-    denores = DenoWebsocket()
-    print(denores)
-    bunres = BunWebsocket()
-    print(bunres)
+
     # benchAnswers = inquirer.prompt(Tests)['tests']
     benchAnswers = ['Fetch', 'SQLiteRead', 'SQLiteWrite', 'httpserver']
-    benchAnswers = []
+    benchAnswers = [0,1,2,3,4,5,6]
     print(benchAnswers)
 
     if len(runtimesAnswers) == 0:
@@ -86,10 +87,36 @@ if __name__ == '__main__':
     if 2 in benchAnswers:
         write = CommandBuilder(runtimesAnswers, commandsWrite)
         HyperfineWriteTest(write, path + "/sqlitewrite.json")
+
+    if 3 in benchAnswers:
+        socketres = []
+        if 0 in runtimesAnswers:
+            noderes = NodeWebsocket()
+            socketres.append(noderes)
+        if 1 in runtimesAnswers:
+            denores = DenoWebsocket()
+            socketres.append(denores)
+
+        if 2 in runtimesAnswers:
+            bunres = BunWebsocket()
+            socketres.append(bunres)
+
+        f = open(path + '/socketres.json', 'w')
+        print(socketres)
+        f.write(' ,'.join(str(x) for x in socketres))
+        f.close()
+
     if 4 in benchAnswers:
         os.makedirs(path + '/httpserver')
         http = ohaTests(runtimesAnswers, path + '/httpserver/')
 
+    if 5 in benchAnswers:
+        mongowrite = CommandBuilder(runtimesAnswers, commandsMongoWrite)
+        mongoW = HyperfineMongoWriteTest(mongowrite, path + '/mongowrite.json')
+
+    if 6 in benchAnswers:
+        mongoread = CommandBuilder(runtimesAnswers, commandsMongoRead)
+        mongoR = HyperfineMongoReadTest(mongoread, path + '/mongoread.json')
 
 
 

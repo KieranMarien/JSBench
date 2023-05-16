@@ -95,26 +95,19 @@ def BunSQLiteWrite():
 
 
 def HyperfineReadTest(command, path):
-    string = "node benchmark/node/sqlite/sqlite-read.js"
-    # , '\'deno run --allow-read benchmark/deno/sqlite/sqlite-read.ts\''
-    print(path)
-    print(os.path.abspath(path))
-    print(command)
-    str = ''
-    for test in command:
-        str += test
-    result = subprocess.call(['hyperfine', '--warmup', '3', '--runs', '10', str, '--show-output', '--export-json',
-                              os.path.abspath(path)])
-
-    print(result)
+    arr = ['hyperfine', '--warmup', '3', '--runs', '10', '--show-output', '--export-json',
+                              os.path.abspath(path)]
+    for el in command:
+        arr.insert(5, el)
+    result = subprocess.call(arr)
 
 
 def HyperfineWriteTest(command, path):
-    str = ''
-    for test in command:
-        str += test
-    result = subprocess.call(['hyperfine', '--warmup', '3', '--runs', '10', str, '--show-output', '--export-json',
-                              os.path.abspath(path)])
+    arr = ['hyperfine', '--warmup', '3', '--runs', '10', '--show-output', '--export-json',
+                              os.path.abspath(path)]
+    for el in command:
+        arr.insert(5, el)
+    result = subprocess.call(arr)
     if os.path.isfile('bun.sqlite'): os.remove('bun.sqlite')
     if os.path.isfile('deno.sqlite'): os.remove('deno.sqlite')
     if os.path.isfile('node.sqlite'): os.remove('node.sqlite')

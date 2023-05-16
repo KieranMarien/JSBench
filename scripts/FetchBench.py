@@ -43,9 +43,9 @@ def HyperfineFetchTest(command, path):
     print(command)
     jsonserver = subprocess.Popen(['json-server', 'db.json', '-q'], shell=True)
     time.sleep(5)
-    str = ''
-    for test in command:
-        str += test
-    print(path)
-    result = subprocess.call(['hyperfine', '--warmup', '3', '--runs', '10', str, '--show-output', '--export-json', os.path.abspath(path)])
+    arr = ['hyperfine', '--warmup', '3', '--runs', '10', '--show-output', '--export-json',
+                              os.path.abspath(path)]
+    for el in command:
+        arr.insert(5, el)
+    result = subprocess.call(arr)
     jsonserver.kill()
