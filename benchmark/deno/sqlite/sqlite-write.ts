@@ -6,7 +6,6 @@ db.query(
   "create table students (id int, name varchar(255), age int, grade int)"
 );
 db.query("insert into students values(1, 'John', 6, 1)");
-console.log(db.query("select * from students"));
 
 db.query('drop table students')
 

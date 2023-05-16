@@ -9,8 +9,6 @@ db.prepare(
 
 db.prepare("insert into students values(1, 'John', 6, 1)").run();
 
-console.log(db.prepare("select * from students").all());
-
 db.prepare('drop table students').run();
 
 db.close()

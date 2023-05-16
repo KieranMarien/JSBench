@@ -1,0 +1,8 @@
+{
+  "name": "seed",
+  "version": "1.0.0",
+  "dependencies": {
+    "csv-parser": "^3.0.0",
+    "mongodb": "^5.5.0"
+  }
+}
