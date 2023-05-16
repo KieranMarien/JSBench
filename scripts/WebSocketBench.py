@@ -95,8 +95,10 @@ def BunWebsocket():
         bun_process = bun.Popen(['benchmark/bun/websocket/WS-server.ts'])
         time.sleep(3)
         start_time = time.time()
-        webSocketTester(SERVER_BUN)
+        bun_client_process = node.run(['benchmark/client/WS-client.js'])
         result.append(time.time() - start_time)
         bun_process.kill()
+        while(bun_process.poll()):
+            time.sleep(0.1)
     return result
 

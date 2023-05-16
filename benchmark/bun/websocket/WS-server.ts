@@ -1,9 +1,8 @@
-import { WebSocket } from "https://deno.land/x/websocket/mod.ts";
 
-let clients: WebSocket[] = [];
+let clients = [];
 
 const server = Bun.serve({
-  port: 5001,
+  port: 3001,
   fetch(req, server) {
     // upgrade the request to a WebSocket
     if (server.upgrade(req)) {
@@ -14,6 +13,7 @@ const server = Bun.serve({
   websocket: {
     open(ws) {
       clients.push(ws);
+      console.log(clients.length)
     },
     message(ws, msg) {
       for (const client of clients) {
