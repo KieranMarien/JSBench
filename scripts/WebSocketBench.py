@@ -78,7 +78,6 @@ def NodeWebsocket():
 def DenoWebsocket():
     result = []
     for i in range(settings.NumberOfTests):
-        print(i)
         deno_process = deno.Popen(['run', '--allow-net', 'benchmark/deno/websocket/WS-server.ts'])
         time.sleep(3)
         start_time = time.time()

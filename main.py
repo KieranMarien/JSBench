@@ -13,7 +13,11 @@ from scripts.SQLiteBench import *
 from scripts.FetchBench import *
 from scripts.httpserver import *
 
+if sys.platform.startswith("linux") or sys.platform == "darwin":
+    settings.os = 'linux'
 
+else:
+    settings.os = 'windows'
 
 if sys.platform.startswith("linux") or sys.platform == "darwin":
     Runtimes = [
@@ -63,7 +67,6 @@ if __name__ == '__main__':
 
     # runtimesAnswers = inquirer.prompt(Runtimes)['runtimes']
     runtimesAnswers = [0, 1]
-    print(runtimesAnswers)
 
     # benchAnswers = inquirer.prompt(Tests)['tests']
     benchAnswers = ['Fetch', 'SQLiteRead', 'SQLiteWrite', 'httpserver']

@@ -12,7 +12,7 @@ async function main() {
 
     // Insert a student
     await collection.insertOne({ id: 1, name: 'John', age: 6, grade: 1 });
-    arr = []
+    let arr = []
     for (let i =0;i<10;i++){
       arr.push({id: i, name: i + 'name', age: i, grade: i})
     }

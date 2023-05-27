@@ -39,9 +39,10 @@ def BunFetch():
 
 
 def HyperfineFetchTest(command, path):
-    print(os.path.abspath(path))
-    print(command)
-    jsonserver = subprocess.Popen(['json-server', 'db.json', '-q'], shell=True)
+    if settings.os == 'linux':
+        jsonserver = subprocess.Popen(['json-server', 'db.json', '-q'])
+    else:
+        jsonserver = subprocess.Popen(['json-server', 'db.json', '-q'], shell=True)
     time.sleep(5)
     arr = ['hyperfine', '--warmup', '3', '--runs', '10', '--show-output', '--export-json',
                               os.path.abspath(path)]

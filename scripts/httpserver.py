@@ -60,21 +60,33 @@ def ohaTests(runtimes, path):
     if 0 in runtimes:
         nodeServer = node.Popen(['benchmark/node/http-server/http-server.js'])
         f = open(path + 'httpnode.json', 'a')
-        result = subprocess.call(
-            ["oha.exe", 'http://127.0.0.1:3000', '-n', '1000', '-c', '100', '-j'], stdout=f, shell=True)
+        if settings.os == 'linux':
+            result = subprocess.call(
+                ["oha", 'http://127.0.0.1:3000', '-n', '1000', '-c', '100', '-j'], stdout=f)
+        else:
+            result = subprocess.call(
+                ["oha.exe", 'http://127.0.0.1:3000', '-n', '1000', '-c', '100', '-j'], stdout=f, shell=True)
         f.close()
         nodeServer.kill()
     if 1 in runtimes:
         denoServer = deno.Popen(['run', '--allow-net', 'benchmark/deno/http-server.ts'])
         f = open(path + 'httpdeno.json', 'a')
-        result = subprocess.call(
-            ["oha.exe", 'http://127.0.0.1:4000', '-n', '1000', '-c', '100', '-j'], stdout=f, shell=True)
+        if(settings.os == 'linux'):
+            result = subprocess.call(
+            ["oha", 'http://127.0.0.1:4000', '-n', '1000', '-c', '100', '-j'], stdout=f)
+        else:
+            result = subprocess.call(
+                ["oha.exe", 'http://127.0.0.1:4000', '-n', '1000', '-c', '100', '-j'], stdout=f, shell=True)
         f.close()
         denoServer.kill()
     if 2 in runtimes:
         bunServer = bun.Popen(['benchmark/bun/http-server.ts'])
         f = open(path + 'httpbun.json', 'a')
-        result = subprocess.call(
-            ["oha.exe", 'http://127.0.0.1:5000', '-n', '1000', '-c', '100', '-j'], stdout=f, shell=True)
+        if(settings.os == 'linux'):
+            result = subprocess.call(
+                ["oha", 'http://127.0.0.1:3000', '-n', '1000', '-c', '100', '-j'], stdout=f)
+        else:
+            result = subprocess.call(
+                ["oha.exe", 'http://127.0.0.1:5000', '-n', '1000', '-c', '100', '-j'], stdout=f, shell=True)
         f.close
         bunServer.kill()
