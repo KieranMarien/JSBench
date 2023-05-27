@@ -64,14 +64,15 @@ if __name__ == '__main__':
     date = datetime.now().strftime('%d-%m-%Y_%H-%M-%S')
     os.makedirs('./results/' + date)
     path = './results/' + date
-
-    # runtimesAnswers = inquirer.prompt(Runtimes)['runtimes']
-    runtimesAnswers = [0, 1]
-
-    # benchAnswers = inquirer.prompt(Tests)['tests']
-    benchAnswers = ['Fetch', 'SQLiteRead', 'SQLiteWrite', 'httpserver']
-    benchAnswers = [0,1,2,3,4,5,6]
-    print(benchAnswers)
+    if settings.os == 'linux':
+        runtimesAnswers = inquirer.prompt(Runtimes)['runtimes']
+    else:
+        runtimesAnswers = [0, 1]
+    if settings.os == 'linux':
+        benchAnswers = inquirer.prompt(Tests)['tests']
+    else:
+        benchAnswers = [0, 1, 2, 3, 4, 5, 6]
+    #benchAnswers = ['Fetch', 'SQLiteRead', 'SQLiteWrite', 'httpserver']
 
     if len(runtimesAnswers) == 0:
         print('MIN 1 value for runtimes')
