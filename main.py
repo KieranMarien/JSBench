@@ -67,11 +67,11 @@ if __name__ == '__main__':
     if settings.os == 'linux':
         runtimesAnswers = inquirer.prompt(Runtimes)['runtimes']
     else:
-        runtimesAnswers = [1]
+        runtimesAnswers = [0, 1]
     if settings.os == 'linux':
         benchAnswers = inquirer.prompt(Tests)['tests']
     else:
-        benchAnswers = [3]
+        benchAnswers = [0,1,2,3,4,5,6]
     #benchAnswers = ['Fetch', 'SQLiteRead', 'SQLiteWrite', 'httpserver']
 
     if len(runtimesAnswers) == 0:
