@@ -93,22 +93,7 @@ if __name__ == '__main__':
         HyperfineWriteTest(write, path + "/sqlitewrite.json")
 
     if 3 in benchAnswers:
-        socketres = []
-        if 0 in runtimesAnswers:
-            noderes = NodeWebsocket()
-            socketres.append(noderes)
-        if 1 in runtimesAnswers:
-            denores = DenoWebsocket()
-            socketres.append(denores)
-
-        if 2 in runtimesAnswers:
-            bunres = BunWebsocket()
-            socketres.append(bunres)
-
-        f = open(path + '/socketres.json', 'w')
-        print(socketres)
-        f.write(' ,'.join(str(x) for x in socketres))
-        f.close()
+        HyperfineWebSocket(runtimesAnswers, path + '/websocket/')
 
     if 4 in benchAnswers:
         os.makedirs(path + '/httpserver')

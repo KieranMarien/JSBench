@@ -1,3 +1,4 @@
+import subprocess
 import time
 
 import numpy as np
@@ -100,4 +101,31 @@ def BunWebsocket():
         while(bun_process.poll()):
             time.sleep(0.1)
     return np.mean(result)
+
+def HyperfineWebSocket(runtimes, path):
+    if 0 in runtimes:
+        nodeServer = node.Popen(['benchmark/node/websocket/WS-server.js'])
+        time.sleep(3)
+        f = open(path + 'wsNode.json', 'a')
+        arr = ['hyperfine', '--warmup', '3', '--runs', '10', 'node benchmark/client/WS-client.js', '--show-output', '--export-json',
+               os.path.abspath(path)]
+        f.close()
+        nodeServer.kill()
+    if 1 in runtimes:
+        denoServer = deno.Popen(['run', '--allow-net', 'benchmark/deno/websocket/WS-server.ts'])
+        time.sleep(3)
+        f = open(path + 'wsNode.json', 'a')
+        arr = ['hyperfine', '--warmup', '3', '--runs', '10', 'node benchmark/client/WS-client.js', '--show-output', '--export-json',
+               os.path.abspath(path)]
+        f.close()
+        denoServer.kill()
+    if 2 in runtimes:
+        bunServer = bun.Popen(['benchmark/bun/websocket/WS-server.ts'])
+        time.sleep(3)
+        f = open(path + 'wsNode.json', 'a')
+        arr = ['hyperfine', '--warmup', '3', '--runs', '10', 'node benchmark/client/WS-client.js', '--show-output', '--export-json',
+               os.path.abspath(path)]
+        f.close()
+        bunServer.kill()
+
 
