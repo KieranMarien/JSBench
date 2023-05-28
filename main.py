@@ -93,6 +93,7 @@ if __name__ == '__main__':
         HyperfineWriteTest(write, path + "/sqlitewrite.json")
 
     if 3 in benchAnswers:
+        os.makedirs(path + '/websocket')
         HyperfineWebSocket(runtimesAnswers, path + '/websocket/')
 
     if 4 in benchAnswers:
