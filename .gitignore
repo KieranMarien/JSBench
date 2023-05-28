@@ -4,6 +4,7 @@
 ### Deno ###
 /.idea/
 /.vscode/
+/results/*
 
 /node_modules
 
