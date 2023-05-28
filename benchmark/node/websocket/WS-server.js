@@ -15,6 +15,6 @@ wss.on('connection', function(ws) {
     }
   });
   ws.on('close', function(){
-        console.log(clients.length)
+    clients = []
   })
 });

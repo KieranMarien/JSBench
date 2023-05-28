@@ -13,7 +13,6 @@ const server = Bun.serve({
   websocket: {
     open(ws) {
       clients.push(ws);
-      console.log(clients.length)
     },
     message(ws, msg) {
       for (const client of clients) {
@@ -21,7 +20,8 @@ const server = Bun.serve({
       }
     },
     close(ws) {
-      console.log(clients.length);
+          clients = []
+
     },
   },
 });

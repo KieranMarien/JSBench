@@ -13,7 +13,6 @@ async function insertDocuments(docs) {
     const db = client.db(dbName);
     const collection = db.collection(collectionName);
     await collection.insertMany(docs);
-    console.log('Documents inserted successfully.');
   } catch (err) {
     console.log('Error inserting documents:', err);
   } finally {
