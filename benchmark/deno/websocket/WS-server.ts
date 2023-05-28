@@ -9,8 +9,8 @@ wss.on("connection", function (ws: WebSocketClient) {
       client.send('message')
     }
   });
-  ws.on('close', function(){
-    console.log(clients.length)
+  ws.on('close', function(ws: WebSocketClient){
+    clients = []
   })
   clients.push(ws)
 });

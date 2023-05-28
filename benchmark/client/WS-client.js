@@ -1,5 +1,4 @@
 var WebSocket  = require('ws');
-console.log('start');
 let clients = [];
 let clientid = 0
 let messageCount = 0;

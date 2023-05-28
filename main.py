@@ -53,7 +53,7 @@ commandsMongoRead= ['node benchmark/node/mongodb/mongo-read.js ',
 commandsMongoWrite= ['node benchmark/node/mongodb/mongo-write.js ',
                     'deno run --allow-net --allow-read benchmark/deno/mongodb/mongo-write.ts ',
                     'bun benchmark/node/mongodb/mongo-write.js ']
-def CommandBuilder(runtimes, arr):
+def command_builder(runtimes, arr):
     res = []
     for runtime in runtimes:
         res.append(arr[runtime])
@@ -83,13 +83,13 @@ if __name__ == '__main__':
         runtimesAnswers = inquirer.prompt(Runtimes)
 
     if 0 in benchAnswers:
-        fetch = CommandBuilder(runtimesAnswers, commandsFetch)
+        fetch = command_builder(runtimesAnswers, commandsFetch)
         HyperfineFetchTest(fetch, path + '/fetch.json')
     if 1 in benchAnswers:
-        read = CommandBuilder(runtimesAnswers, commandsRead)
+        read = command_builder(runtimesAnswers, commandsRead)
         HyperfineReadTest(read, path + "/sqliteread.json")
     if 2 in benchAnswers:
-        write = CommandBuilder(runtimesAnswers, commandsWrite)
+        write = command_builder(runtimesAnswers, commandsWrite)
         HyperfineWriteTest(write, path + "/sqlitewrite.json")
 
     if 3 in benchAnswers:
@@ -115,11 +115,11 @@ if __name__ == '__main__':
         http = ohaTests(runtimesAnswers, path + '/httpserver/')
 
     if 5 in benchAnswers:
-        mongowrite = CommandBuilder(runtimesAnswers, commandsMongoWrite)
+        mongowrite = command_builder(runtimesAnswers, commandsMongoWrite)
         mongoW = HyperfineMongoWriteTest(mongowrite, path + '/mongowrite.json')
 
     if 6 in benchAnswers:
-        mongoread = CommandBuilder(runtimesAnswers, commandsMongoRead)
+        mongoread = command_builder(runtimesAnswers, commandsMongoRead)
         mongoR = HyperfineMongoReadTest(mongoread, path + '/mongoread.json')
 
 
