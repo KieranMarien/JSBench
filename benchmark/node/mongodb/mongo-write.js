@@ -19,7 +19,7 @@ async function main() {
     await collection.insertMany(arr)
 
     // Drop the collection (table)
-    await collection.drop();
+    await collection.drop()
   } catch (error) {
     console.error('Error:', error);
   } finally {

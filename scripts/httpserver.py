@@ -78,6 +78,7 @@ def ohaTests(runtimes, path):
             result = subprocess.call(
                 ["oha.exe", 'http://127.0.0.1:4000', '-n', '1000', '-c', '100', '-j'], stdout=f, shell=True)
         f.close()
+        
         denoServer.kill()
     if 2 in runtimes:
         bunServer = bun.Popen(['benchmark/bun/http-server/http-server.js'])

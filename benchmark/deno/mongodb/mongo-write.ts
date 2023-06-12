@@ -6,10 +6,8 @@ async function main() {
 
   try {
     await client.connect(uri);
-
     const database = client.database("node");
     const collection = database.collection("students");
-
     // Insert a student
     await collection.insertOne({ id: 1, name: "John", age: 6, grade: 1 });
 
@@ -27,5 +25,4 @@ async function main() {
     await client.close();
   }
 }
-
 main();

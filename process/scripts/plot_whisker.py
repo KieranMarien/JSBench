@@ -30,7 +30,7 @@ with open(args.file) as f:
 if args.labels:
     labels = args.labels.split(",")
 else:
-    labels = [b["command"] for b in results]
+    labels = [b["command"][:4] for b in results]  # Modify label creation
 times = [b["times"] for b in results]
 
 boxplot = plt.boxplot(times, vert=True, patch_artist=True)
@@ -42,7 +42,8 @@ for patch, color in zip(boxplot["boxes"], colors):
 
 if args.title:
     plt.title(args.title)
-plt.legend(handles=boxplot["boxes"], labels=labels, loc="best", fontsize="medium")
+plt.legend(handles=boxplot["boxes"], labels=[label[:4] for label in labels], loc="upper left", fontsize="medium")  # Modify label truncation
+plt.xticks(range(1, len(labels) + 1), [label[:4] for label in labels], rotation=45, ha='right')  # Modify label truncation
 plt.ylabel("Time [s]")
 plt.ylim(0, None)
 if args.output:
